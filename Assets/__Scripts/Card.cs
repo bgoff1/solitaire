@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 public class Card : MonoBehaviour
 {
+
     // This will be defined later // Done now
     public string suit; // Suit of the Card (C,D,H, or S)
     public int rank; // Rank of the Card (1-14)
@@ -22,19 +23,6 @@ public class Card : MonoBehaviour
         SetSortOrder(0);  // Ensures that the card starts properly depth sorted
     }
 
-
-    public bool faceUp
-    {
-        get
-        {
-            return (!back.activeSelf);
-        }
-        set
-        {
-            back.SetActive(!value);
-        }
-    }
-
     // If spriteRenderers is not yet defined, this function defines it
     public void PopulateSpriteRenderers()
     {
@@ -45,6 +33,7 @@ public class Card : MonoBehaviour
             spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
         }
     }
+
     // Sets the sortingLayerName on all SpriteRenderer Components
     public void SetSortingLayerName(string tSLN)
     {
@@ -54,17 +43,16 @@ public class Card : MonoBehaviour
             tSR.sortingLayerName = tSLN;
         }
     }
+
     // Sets the sortingOrder of all SpriteRenderer Components
     public void SetSortOrder(int sOrd)
     {
         PopulateSpriteRenderers();
-        // The white background of the card is on bottom (sOrd)
-        // On top of that are all the pips, decorators, face, etc. (sOrd+1)
-        // The back is on top so that when visisble, it covers the rest (sOrd+2)
+
         // Iterate through all the spriteRenderers as tSR
         foreach (SpriteRenderer tSR in spriteRenderers)
         {
-            if (tSR.gameObject == this.gameObject)
+            if (tSR.gameObject == gameObject)
             {
                 // If the gameObject is this.gameObject, it's the background
                 tSR.sortingOrder = sOrd;  // Set its order to sOrd
@@ -81,12 +69,23 @@ public class Card : MonoBehaviour
                 case "face": // if the name is "face"
                 default:     // or if it's anything else
                     tSR.sortingOrder = sOrd + 1;
-                    // ^ Set it to the middle layer to be above the background
                     break;
             }
         }
     }
 
+    public bool faceUp
+    {
+        get
+        {
+            return (!back.activeSelf);
+        }
+        set
+        {
+            back.SetActive(!value);
+        }
+    }
+    
     // Virtual methods can be overridden by subclass methods with the same name
     virtual public void OnMouseUpAsButton()
     {

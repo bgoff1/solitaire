@@ -54,16 +54,15 @@ public class Layout : MonoBehaviour
                 // If not, set its type to "slot"; it's a tableau card 
                 tSD.type = "slot";
             }
+
             // Various attributes are parsed into numerical values
             tSD.x = float.Parse(slotsX[i].att("x"));
             tSD.y = float.Parse(slotsX[i].att("y"));
             tSD.layerID = int.Parse(slotsX[i].att("layer"));
+
             // This converts the number of the layerID into a text layerName
             tSD.layerName = sortingLayerNames[tSD.layerID];
-            // The layers are used to make sure that the correct cards are
-            //   on top of the others. In Unity 2D, all of our assets are
-            //   effectively at the same Z depth, so the layer is used
-            //   to differentiate between them.
+            
             switch (tSD.type)
             {
                 // pull additional attributes based on the type of this <slot>
